@@ -1,0 +1,95 @@
+To implement Conway’s Game of Life in Next.js based on your assignment, you need to translate traditional object-oriented console logic into a reactive, state-driven web environment.
+
+Here is the breakdown of the core logic you need to implement.
+
+---
+
+## 1. Grid Initialization (The "Constructor")
+
+In Next.js, you will likely use a `useState` hook to hold your grid. Following the task requirements, your initialization logic must:
+
+* 
+**Dimensions:** Create a 2D array (matrix) that is **two rows and two columns larger** than the requested size (e.g., for a 10x10 game, create a 12x12 matrix).
+
+
+* 
+**The Border:** Set all "outer" cells (index 0 and index $N+1$) to **0**.
+
+
+* 
+**Randomization:** Fill the "inner" cells randomly with **0** (empty) or **1** (cell).
+
+
+
+## 2. The Evolution Logic (`KovetkzoAllapot`)
+
+This is the "brain" of the simulator. You must determine the state of the next generation without modifying the current one mid-calculation.
+
+### Neighbor Counting
+
+For every **inner cell**, you must check its 8 neighbors (including diagonals).
+
+* A neighbor is any cell with a value of **1**.
+
+
+* **Crucial Rule:** You must use a **buffer (copy)** of the matrix to calculate the new state. The original `Matrix` should only be updated once all new values are determined.
+
+
+
+### Survival & Birth Rules
+
+Apply these three rules to each inner cell:
+
+1. 
+**Survival:** A cell stays alive if it has **2 or 3** neighbors.
+
+
+2. 
+**Death:** A cell dies if it has **fewer than 2** (loneliness) or **more than 3** (overpopulation) neighbors.
+
+
+3. 
+**Birth:** An empty cell becomes alive if it has **exactly 3** neighbors.
+
+
+
+---
+
+## 3. The Simulation Loop (`Run`)
+
+In a console app, you would use a loop with a sleep timer. In Next.js, you should use `useEffect` combined with `setInterval`.
+
+* 
+**Timing:** Set the interval to **500 milliseconds**.
+
+
+* 
+**Trigger:** The loop should run repeatedly until a "stop" condition is met (the task mentions "until a keypress," which in a browser could be a button toggle or a keyboard event listener).
+
+
+
+---
+
+## 4. Rendering Logic (`Megjelenit`)
+
+Instead of printing to a console, your Next.js component will map through the matrix and return JSX elements. Follow the symbol requirements for your UI:
+
+| Cell Type | Value | Display Character |
+| --- | --- | --- |
+| **Outer Border** | 0 (technical) | <br>`X` 
+
+ |
+| **Empty Inner** | 0 | (Space / Empty) 
+
+ |
+| **Living Cell** | 1 | <br>`S` 
+
+ |
+
+---
+
+### Implementation Tip for Next.js
+
+Since React state is immutable, when you calculate the `KovetkzoAllapot`, create a deep copy of your matrix (e.g., `newGrid = grid.map(row => [...row])`), update the copy, and then call your state setter (e.g., `setGrid(newGrid)`). This ensures the UI re-renders correctly every 500ms.
+
+Would you like me to clarify how to handle the 2D array mapping in your JSX?
