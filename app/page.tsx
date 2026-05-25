@@ -55,7 +55,7 @@ export default function App() {
                     if (elok.p1 === elok.p2) {
                         setVegeredmeny(`Patthelyzet alakult ki! Döntetlen, mindkét játékosnak pontosan ${elok.p1} sejtje maradt.`);
                     } else {
-                        const gyoztes = elok.p1 > elok.p2 ? "KÉK (1. Játékos)" : "PIROS (2. Játékos)";
+                        const gyoztes = elok.p1 > elok.p2 ? "ZÖLD (1. Játékos)" : "SÁRGA (2. Játékos)";
                         setVegeredmeny(`A játék állandósult! Pontozásos győzelem: nyert a ${gyoztes} több élő sejttel (${Math.max(elok.p1, elok.p2)} vs ${Math.min(elok.p1, elok.p2)}).`);
                     }
                     setFazis('GAME_OVER');
@@ -68,10 +68,10 @@ export default function App() {
                     setVegeredmeny("Minden sejt elpusztult! Döntetlen.");
                     setFazis('GAME_OVER');
                 } else if (elok.p1 === 0) {
-                    setVegeredmeny("A PIROS (2. Játékos) nyert! A kék csapat kihalt.");
+                    setVegeredmeny("A SÁRGA (2. Játékos) nyert! A ZÖLD csapat kihalt.");
                     setFazis('GAME_OVER');
                 } else if (elok.p2 === 0) {
-                    setVegeredmeny("A KÉK (1. Játékos) nyert! A piros csapat kihalt.");
+                    setVegeredmeny("A ZÖLD (1. Játékos) nyert! A SÁRGA csapat kihalt.");
                     setFazis('GAME_OVER');
                 }
 
@@ -102,9 +102,9 @@ export default function App() {
 
     if (fazis === 'CONFIG') {
         return (
-            <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center p-6">
-                <div className="bg-slate-900 p-8 rounded-3xl border border-slate-800 shadow-2xl w-full max-w-md">
-                    <h1 className="text-3xl font-black text-center mb-8 bg-gradient-to-r from-blue-400 to-red-500 bg-clip-text text-transparent">
+            <div className="min-h-dvh bg-background text-text flex items-center justify-center p-6">
+                <div className="bg-foreground p-8 rounded-2xl border border-border shadow-2xl w-full max-w-md">
+                    <h1 className="text-3xl text-center font-black mb-8">
                         CELL WARS BEÁLLÍTÁSOK
                     </h1>
 
@@ -116,7 +116,7 @@ export default function App() {
                             <input
                                 type="range" min="8" max="25" value={beallitottMeret}
                                 onChange={(e) => setBeallitottMeret(parseInt(e.target.value))}
-                                className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                                className="w-full h-2 bg-border rounded-lg appearance-none cursor-pointer accent-primary"
                             />
                         </div>
 
@@ -127,13 +127,13 @@ export default function App() {
                             <input
                                 type="range" min="3" max="40" value={beallitottSejtszam}
                                 onChange={(e) => setBeallitottSejtszam(parseInt(e.target.value))}
-                                className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-red-500"
+                                className="w-full h-2 bg-border rounded-lg appearance-none cursor-pointer accent-primary"
                             />
                         </div>
 
                         <button
                             onClick={jatekInditasa}
-                            className="w-full py-4 bg-gradient-to-r from-blue-600 to-red-600 rounded-xl font-bold text-lg hover:scale-105 transition-transform shadow-lg mt-4"
+                            className="w-full py-4 bg-border rounded-lg font-bold text-lg hover:bg-primary hover:text-border transition-transform shadow-lg mt-4"
                         >
                             JÁTÉK INDÍTÁSA
                         </button>
@@ -144,20 +144,20 @@ export default function App() {
     }
 
     return (
-        <div className="min-h-screen bg-slate-950 text-white flex flex-col items-center justify-center p-4">
+        <div className="min-h-dvh bg-background text-text flex flex-col items-center justify-center p-4">
 
             {fazis !== 'SETUP' && (
                 <div className="mb-4 flex items-center gap-4">
-                    <div className="bg-slate-900 px-6 py-2 rounded-full border border-slate-800 text-sm font-mono text-slate-400">
-                        Eltelt idő: <span className="text-yellow-400 font-bold text-base">{korSzamlalo}</span> kör
+                    <div className="bg-foreground px-6 py-2 rounded-full border border-border text-sm font-mono text-text-light">
+                        Eltelt idő: <span className="text-warning font-bold text-base">{korSzamlalo}</span> kör
                     </div>
                     {/* Szünet / Folytatás Gomb szimuláció közben */}
                     {fazis === 'RUNNING' && (
                         <button
                             onClick={() => setIsPaused(!isPaused)}
                             className={`px-4 py-2 rounded-full font-bold text-xs uppercase tracking-wider border transition-all ${isPaused
-                                    ? 'bg-green-500/20 text-green-400 border-green-500 hover:bg-green-500/30'
-                                    : 'bg-amber-500/20 text-amber-400 border-amber-500 hover:bg-amber-500/30'
+                                    ? 'bg-primary/20 text-primary border-primary hover:bg-primary/30'
+                                    : 'bg-warning/20 text-warning border-warning hover:bg-warning/30'
                                 }`}
                         >
                             {isPaused ? '▶ Folytatás' : '⏸ Megállítás'}
@@ -167,10 +167,10 @@ export default function App() {
             )}
 
             <div className="flex gap-6 mb-6 w-full max-w-2xl">
-                <div className={`flex-1 p-4 rounded-2xl border-2 transition-all duration-300 ${aktualisJatekos === 1 && fazis === 'SETUP' ? 'border-blue-500 bg-blue-500/10 shadow-[0_0_15px_rgba(59,130,246,0.2)]' : 'border-slate-800 bg-slate-900/40'}`}>
+                <div className={`flex-1 p-4 rounded-2xl border-2 transition-all duration-300 ${aktualisJatekos === 1 && fazis === 'SETUP' ? 'border-primary bg-primary/10' : 'border-border bg-foreground'}`}>
                     <div className="flex items-center gap-3">
-                        <div className="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_8px_cyan]" />
-                        <h2 className="font-black text-blue-400 text-sm tracking-wider">PLAYER 1 (KÉK)</h2>
+                        <div className="w-3 h-3 rounded-full bg-primary" />
+                        <h2 className="font-black text-primary text-sm tracking-wider">PLAYER 1 (ZÖLD)</h2>
                     </div>
                     <p className="text-xl font-mono mt-1">
                         {fazis === 'SETUP'
@@ -180,10 +180,10 @@ export default function App() {
                     </p>
                 </div>
 
-                <div className={`flex-1 p-4 rounded-2xl border-2 transition-all duration-300 ${aktualisJatekos === 2 && fazis === 'SETUP' ? 'border-red-500 bg-red-500/10 shadow-[0_0_15px_rgba(239,68,68,0.2)]' : 'border-slate-800 bg-slate-900/40'}`}>
+                <div className={`flex-1 p-4 rounded-2xl border-2 transition-all duration-300 ${aktualisJatekos === 2 && fazis === 'SETUP' ? 'border-secondary bg-secondary/10' : 'border-border bg-foreground'}`}>
                     <div className="flex items-center gap-3">
-                        <div className="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_8px_red]" />
-                        <h2 className="font-black text-red-400 text-sm tracking-wider">PLAYER 2 (PIROS)</h2>
+                        <div className="w-3 h-3 rounded-full bg-secondary" />
+                        <h2 className="font-black text-secondary text-sm tracking-wider">PLAYER 2 (SÁRGA)</h2>
                     </div>
                     <p className="text-xl font-mono mt-1">
                         {fazis === 'SETUP'
@@ -196,7 +196,7 @@ export default function App() {
 
             <div className="relative">
                 <div
-                    className={`grid gap-1 p-2 bg-slate-900 rounded-xl border border-slate-800 shadow-2xl transition-opacity duration-500 ${fazis === 'GAME_OVER' ? 'opacity-40 pointer-events-none' : ''}`}
+                    className={`grid gap-1 p-2 bg-background rounded-xl border border-border shadow-2xl transition-opacity duration-500 ${fazis === 'GAME_OVER' ? 'opacity-40 pointer-events-none' : ''}`}
                     style={{
                         gridTemplateColumns: `repeat(${beallitottMeret}, minmax(0, 1fr))`,
                         width: 'min(85vw, 550px)',
@@ -210,9 +210,9 @@ export default function App() {
                                 onClick={() => cellaKattintas(rIdx + 1, cIdx + 1)}
                                 className={`
                   aspect-square rounded-sm cursor-pointer transition-all duration-150
-                  ${cell === 0 ? 'bg-slate-800 hover:bg-slate-700' : ''}
-                  ${cell === 1 ? 'bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.7)] scale-95' : ''}
-                  ${cell === 2 ? 'bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.7)] scale-95' : ''}
+                  ${cell === 0 ? 'bg-foreground hover:bg-foreground/70' : ''}
+                  ${cell === 1 ? 'bg-primary' : ''}
+                  ${cell === 2 ? 'bg-secondary' : ''}
                 `}
                             />
                         ))
@@ -220,13 +220,13 @@ export default function App() {
                 </div>
 
                 {fazis === 'GAME_OVER' && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/80 rounded-xl backdrop-blur-sm border border-slate-800 animate-fade-in p-6 text-center">
-                        <h2 className="text-2xl font-black tracking-widest text-yellow-400 mb-2 uppercase">Játék Vége!</h2>
-                        <p className="text-lg font-semibold px-4 mb-4 text-slate-200">{vegeredmeny}</p>
-                        <p className="text-sm text-slate-400 mb-6 font-mono">A mérkőzés {korSzamlalo} körig tartott.</p>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-foreground rounded-xl backdrop-blur-sm border border-border animate-fade-in p-6 text-center">
+                        <h2 className="text-2xl font-black tracking-widest text-warning mb-2 uppercase">Játék Vége!</h2>
+                        <p className="text-lg font-semibold px-4 mb-4 text-text-light">{vegeredmeny}</p>
+                        <p className="text-sm text-text-light mb-6 font-mono">A mérkőzés {korSzamlalo} körig tartott.</p>
                         <button
                             onClick={() => setFazis('CONFIG')}
-                            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-red-600 font-bold rounded-xl shadow-lg hover:scale-105 transition-transform"
+                            className="px-6 py-3 font-bold rounded-xl border border-border shadow-lg hover:scale-105 transition-transform"
                         >
                             Új beállítások
                         </button>
@@ -236,21 +236,21 @@ export default function App() {
 
             <div className="mt-6 w-full max-w-xs flex flex-col items-center gap-4">
                 {fazis === 'SETUP' && (
-                    <div className="px-4 py-2 bg-slate-900 rounded-full border border-slate-800 text-sm font-semibold tracking-wide text-center">
-                        Még <span className={aktualisJatekos === 1 ? 'text-blue-400' : 'text-red-400'}>{aktualisJatekos === 1 ? 'KÉK' : 'PIROS'}</span> rak le sejtet
+                    <div className="px-4 py-2 bg-foreground rounded-full border border-border text-sm font-semibold tracking-wide text-center">
+                        Még <span className={aktualisJatekos === 1 ? 'text-primary' : 'text-secondary'}>{aktualisJatekos === 1 ? 'ZÖLD' : 'SÁRGA'}</span> rak le sejtet
                     </div>
                 )}
 
                 {fazis === 'RUNNING' && (
-                    <div className="w-full bg-slate-900 p-4 rounded-2xl border border-slate-800 transition-opacity" style={{ opacity: isPaused ? 0.5 : 1 }}>
-                        <label className="flex justify-between text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                    <div className="w-full bg-foreground p-4 rounded-2xl border border-border transition-opacity" style={{ opacity: isPaused ? 0.5 : 1 }}>
+                        <label className="flex justify-between text-xs font-bold text-text-light uppercase tracking-wider mb-2">
                             Szimuláció sebessége: <span>{sebettsegMs} ms / kör</span>
                         </label>
                         <input
                             type="range" min="100" max="1500" step="50" value={sebettsegMs}
                             disabled={isPaused} // Megállított játéknál letiltjuk a csúszkát, hogy egyértelműbb legyen
                             onChange={(e) => setSebettsegMs(parseInt(e.target.value))}
-                            className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-yellow-500 disabled:opacity-30"
+                            className="w-full h-1.5 bg-border border-border rounded-lg appearance-none cursor-pointer accent-warning disabled:opacity-30"
                         />
                     </div>
                 )}
@@ -259,7 +259,7 @@ export default function App() {
                 {fazis !== 'CONFIG' && (
                     <button
                         onClick={() => setFazis('CONFIG')}
-                        className="text-xs text-slate-500 hover:text-red-400 transition-colors uppercase tracking-widest mt-2 font-bold"
+                        className="text-xs text-slate-500 hover:text-error transition-colors uppercase tracking-widest mt-2 font-bold"
                     >
                         ← Menü / Reset
                     </button>
