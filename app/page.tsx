@@ -256,14 +256,14 @@ export default function App() {
                 )}
 
                 {/* Bármikori megszakítás és visszalépés a menübe */}
-                {fazis !== 'CONFIG' && (
-                    <button
-                        onClick={() => setFazis('CONFIG')}
-                        className="text-xs text-slate-500 hover:text-error transition-colors uppercase tracking-widest mt-2 font-bold"
-                    >
-                        ← Menü / Reset
-                    </button>
-                )}
+{(fazis === 'SETUP' || fazis === 'RUNNING' || fazis === 'GAME_OVER') && (
+    <button
+        onClick={() => setFazis('CONFIG')}
+        className="text-xs text-slate-500 hover:text-error transition-colors uppercase tracking-widest mt-2 font-bold"
+    >
+        ← Menü / Reset
+    </button>
+)}
             </div>
         </div>
     );
